@@ -6,7 +6,7 @@
 #    By: avan-ber <avan-ber@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2019/10/30 16:03:32 by avan-ber       #+#    #+#                 #
-#    Updated: 2020/03/06 12:14:14 by avan-ber      ########   odam.nl          #
+#    Updated: 2020/03/10 16:46:22 by avan-ber      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,7 +58,9 @@ BONUS = ft_lstadd_back_bonus.o \
 		ft_lstsize_bonus.o \
 		ft_free_map_char_bonus.o \
 		ft_free_map_int_bonus.o \
-		ft_make_map_int_bonus.o
+		ft_make_map_int_bonus.o \
+		ft_intmapdup_bonus.o \
+		ft_print_map_char.o
 LBLUE =  \033[38;5;14m
 BLUE =  \033[38;5;12m
 RED =  \033[38;5;9m

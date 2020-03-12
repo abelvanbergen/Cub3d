@@ -6,7 +6,7 @@
 /*   By: avan-ber <avan-ber@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/03/06 12:44:22 by avan-ber       #+#    #+#                */
-/*   Updated: 2020/03/06 16:33:21 by avan-ber      ########   odam.nl         */
+/*   Updated: 2020/03/09 18:34:40 by avan-ber      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static int	ft_vla_char_expand_map(t_vla_char *vla)
 		res[i] = vla->map[i];
 		i++;
 	}
-	ft_free_map_char(vla->map, vla->size_map / 2);
+	free(vla->map);
 	vla->map = res;
 	return (0);
 }
@@ -55,7 +55,7 @@ int			ft_vla_char_add_element(t_vla_char *vla, char *elem)
 		ret = ft_vla_char_expand_map(vla);
 		if (ret == -1)
 		{
-			ft_free_map_char(vla->map, vla->size_map / 2);
+			free(vla->map);
 			return (-1);
 		}
 	}

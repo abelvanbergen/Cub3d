@@ -6,17 +6,19 @@
 #    By: avan-ber <avan-ber@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/02/28 13:20:50 by avan-ber       #+#    #+#                 #
-#    Updated: 2020/03/06 11:39:19 by avan-ber      ########   odam.nl          #
+#    Updated: 2020/03/11 12:02:21 by avan-ber      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = cubed
-FLAGS = -Wall -Werror -Wextra -g
+FLAGS = -Wall -Werror -Wextra
 SRCS =	cubed_functions/cub3d_utils/cub3d_utils1.c \
-		cubed_functions/parcing/get_color.c \
-		cubed_functions/parcing/get_resolution.c \
-		cubed_functions/parcing/get_texture.c \
-		cubed_functions/parcing/parse_file.c
+		cubed_functions/parsing/get_color.c \
+		cubed_functions/parsing/get_resolution.c \
+		cubed_functions/parsing/get_texture.c \
+		cubed_functions/parsing/parse_file.c \
+		cubed_functions/parsing/ft_fill_map.c \
+		cubed_functions/raytraycing/ft_cub3d_raytrace.c
 FRAMEWORK =	-framework OpenGl\
 			-framework AppKit
 OFILES = $(SRCS:.c=.o)
@@ -69,7 +71,7 @@ $(NAME): $(OFILES)
 	@ make -C $(VLA_LOC)
 	@ echo "*$(YELLOW)--------------------------------------*"
 	@ echo "\n$(LBLUE)Compiling			$(BLUE)$(NAME)"
-	@ $(CC) $(LIBS) $(FRAMEWORK) -o $(NAME) $(OFILES) $(INCLUDES) -I .
+	@ $(CC) $(FLAGS) $(LIBS) $(FRAMEWORK) -o $(NAME) $(OFILES) $(INCLUDES) -I .
 	@ echo "$(RED)========================================"
 	@ echo "$(RED)||                $(YELLOW)DONE$(RED)                ||"
 	@ echo "$(RED)========================================"
@@ -96,6 +98,7 @@ clean:
 fclean:
 	@ echo "\n$(LBLUE)Removing				$(BLUE)mlx$(RESET)"
 	@ make clean -C $(MLX_LOC)
+	@ rm -rf libmlx.dylib lib/mlx/libmlx.dylib
 	@ echo "*$(YELLOW)--------------------------------------*"
 	@ echo "\n$(LBLUE)Removing				$(BLUE)libft$(RESET)"
 	@ make fclean -C $(LIBFT_LOC)

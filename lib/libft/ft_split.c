@@ -6,12 +6,12 @@
 /*   By: avan-ber <avan-ber@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/11/11 09:04:55 by avan-ber       #+#    #+#                */
-/*   Updated: 2020/03/05 18:32:30 by avan-ber      ########   odam.nl         */
+/*   Updated: 2020/03/10 16:41:58 by avan-ber      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include <stdio.h> //
+// #include "libft.h"
 
 static void	free_data(char **data)
 {
@@ -65,7 +65,6 @@ static int	word_count(char const *s, char c)
 		while (s[i] != c && s[i] != '\0')
 			i++;
 	}
-	printf("%d\n", count);
 	return (count);
 }
 

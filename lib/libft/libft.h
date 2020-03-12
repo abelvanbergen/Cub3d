@@ -6,7 +6,7 @@
 /*   By: avan-ber <avan-ber@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2019/10/30 15:36:22 by avan-ber       #+#    #+#                */
-/*   Updated: 2020/03/06 12:13:34 by avan-ber      ########   odam.nl         */
+/*   Updated: 2020/03/10 16:44:01 by avan-ber      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,18 @@ typedef struct		s_list
 	struct s_list	*next;
 }					t_list;
 
+typedef struct		s_2int
+{
+	int				x;
+	int				y;
+}					t_2int;
+
 int					ft_atoi(const char *str);
 void				ft_bzero(void *s, size_t n);
 void				*ft_calloc(size_t count, size_t size);
+void				ft_free_map_char(char **map);
 void				ft_free_map_int(int **array, int len);
-void				ft_free_map_char(char **map, int len);
+int					**ft_intmapdup(int **map, t_2int size);
 int					ft_isalnum(int c);
 int					ft_isalpha(int c);
 int					ft_isascii(int c);
@@ -48,6 +55,7 @@ int					ft_memcmp(const void *s1, const void *s2, size_t n);
 void				*ft_memcpy(void *dst, const void *src, size_t n);
 void				*ft_memmove(void *dst, const void *src, size_t len);
 void				*ft_memset(void *b, int c, size_t len);
+void				ft_print_data(char **data);
 void				ft_putchar_fd(char c, int fd);
 void				ft_putendl_fd(char *s, int fd);
 void				ft_putnbr_fd(int nb, int fd);
