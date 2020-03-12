@@ -6,14 +6,14 @@
 /*   By: avan-ber <avan-ber@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/03/11 11:40:45 by avan-ber       #+#    #+#                */
-/*   Updated: 2020/03/12 18:05:05 by avan-ber      ########   odam.nl         */
+/*   Updated: 2020/03/12 18:22:38 by avan-ber      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
 typedef struct  s_data {
-    void        *img;
+    void		*img;
     char        *addr;
     int         bits_per_pixel;
     int         line_length;
@@ -28,21 +28,32 @@ void			my_mlx_pixel_put(t_data *data, int x, int y, int color)
 	*(unsigned int*)dst = color;
 }
 
-t_2doub		ft_set_start_direction_player(int rot)
+void	ft_set_direction_and_plane(t_ray *ray, int rot)
 {
-	t_2doub	dir;
-
-	dir.x = 0;
-	dir.y = 0;
+	ray->dir.x = 0;
+	ray->dir.y = 0;
+	ray->plane.x = 0;
+	ray->plane.y = 0;
 	if (rot == north)
-		dir.y = -1;
+	{
+		ray->dir.y = -1;
+		ray->plane.x = 0.66;
+	}
 	else if (rot == east)
-		dir.x = 1;
+	{
+		ray->dir.x = 1;
+		ray->plane.y = 0.66;
+	}
 	else if (rot == south)
-		dir.y = 1;
+	{
+		ray->dir.y = 1;
+		ray->plane.x = -0.66;
+	}
 	else if (rot == west)
-		dir.x = -1;
-	return (dir);
+	{
+		ray->dir.x = -1;
+		ray->plane.y = -0.66;
+	}
 }
 
 t_2doub		ft_set_start_position_player(t_2int pos_int)
@@ -64,7 +75,7 @@ void		ft_set_step_and_sidedistance(t_ray *ray, t_2int map)
 	else
 	{
 		ray->step.x = 1;
-		ray->side_dist.x = (map.x + 1.0 -  ray->pos.x) * ray->delta_dist.x;
+		ray->side_dist.x = (map.x + 1.0 - ray->pos.x) * ray->delta_dist.x;
 	}
 	if (ray->ray_dir.y < 0)
 	{
@@ -74,7 +85,7 @@ void		ft_set_step_and_sidedistance(t_ray *ray, t_2int map)
 	else
 	{
 		ray->step.y = 1;
-		ray->side_dist.y = (map.y + 1.0 -  ray->pos.y) * ray->delta_dist.y;
+		ray->side_dist.y = (map.y + 1.0 - ray->pos.y) * ray->delta_dist.y;
 	}
 }
 
@@ -192,8 +203,7 @@ void	ft_start(t_info info, t_data *img)
 	ray.map = info.map.map;
 	ray.pos_map = info.map.posplayer.coor;
 	ray.pos = ft_set_start_position_player(info.map.posplayer.coor);
-	ray.dir = ft_set_start_direction_player(info.map.posplayer.rot);
-	ray.plane = ft_set_start_plane(0.66, 0.);
+	ft_set_direction_and_plane(&ray, info.map.posplayer.rot);
 	while (x < info.res.x)
 	{
 		ray.pos_map = ft_get_pos_map(ray.pos);
