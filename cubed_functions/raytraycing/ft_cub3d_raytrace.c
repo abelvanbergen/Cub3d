@@ -5,8 +5,8 @@
 /*                                                     +:+                    */
 /*   By: avan-ber <avan-ber@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2020/03/11 11:40:45 by avan-ber       #+#    #+#                */
-/*   Updated: 2020/03/12 18:22:38 by avan-ber      ########   odam.nl         */
+/*   Created: 2020/03/11 11:40:45 by avan-ber      #+#    #+#                 */
+/*   Updated: 2020/06/11 15:46:56 by avan-ber      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,6 @@ void			my_mlx_pixel_put(t_data *data, int x, int y, int color)
 
 void	ft_set_direction_and_plane(t_ray *ray, int rot)
 {
-	ray->dir.x = 0;
-	ray->dir.y = 0;
-	ray->plane.x = 0;
-	ray->plane.y = 0;
 	if (rot == north)
 	{
 		ray->dir.y = -1;
@@ -194,20 +190,15 @@ t_2int	ft_get_pos_map(t_2doub pos)
 	return (pos_map);
 }
 
-void	ft_start(t_info info, t_data *img)
+void	ft_make_frame(t_info info, t_ray ray, t_data *img, void *mlx_window)
 {
-	t_ray	ray;
-	int		x;
+	int coor_x;
 
-	x = 0;
-	ray.map = info.map.map;
-	ray.pos_map = info.map.posplayer.coor;
-	ray.pos = ft_set_start_position_player(info.map.posplayer.coor);
-	ft_set_direction_and_plane(&ray, info.map.posplayer.rot);
-	while (x < info.res.x)
+	coor_x = 0;
+	while (coor_x < info.res.x)
 	{
 		ray.pos_map = ft_get_pos_map(ray.pos);
-		ray.camera_x = 2 * x / (double)info.res.x - 1;
+		ray.camera_x = 2 * coor_x / (double)info.res.x - 1;
 		ray.ray_dir.x = ray.dir.x + ray.plane.x * ray.camera_x;
 		ray.ray_dir.y = ray.dir.y + ray.plane.y * ray.camera_x;
 		ray.delta_dist = ft_set_start_deltadistance(ray.ray_dir);
@@ -216,10 +207,37 @@ void	ft_start(t_info info, t_data *img)
 		ft_set_perpendicular_wall_distance(&ray);
 		ft_set_line(&ray, info.res.y);
 		if (ray.side == 1)
-			ft_put_line_to_window(img, ray, x, 0xFF0000);
+			ft_put_line_to_window(img, ray, coor_x, 0xFF0000);
 		else
-			ft_put_line_to_window(img, ray, x, 0xFF0000 / 3);
-		x++;
+			ft_put_line_to_window(img, ray, coor_x, 0xFF0000 / 3);
+		coor_x++;
+	}
+	mlx_put_image_to_window(info.mlx, mlx_window, img->img, 0, 0);
+}
+
+void	ft_start(t_info info, t_data *img, void *mlx_window)
+{
+	t_ray	ray;
+	int		x;
+
+	x = 0;
+	ft_bzero(&ray, sizeof(t_ray));
+	ray.map = info.map.map;
+	ray.pos = ft_set_start_position_player(info.map.posplayer.coor);
+	ft_set_direction_and_plane(&ray, info.map.posplayer.rot);
+	ft_make_frame(info, ray, img, mlx_window);
+}
+
+void	ft_set_horizontal_line_color(t_data *img, int res_x, int coor_y,
+																	int color)
+{
+	int coor_x;
+
+	coor_x = 0;
+	while (coor_x < res_x)
+	{
+		my_mlx_pixel_put(img, coor_x, coor_y, color);
+		coor_x++;
 	}
 }
 
@@ -227,29 +245,27 @@ void	ft_cub3d_raytrace(t_info info)
 {
 	void	*mlx_window;
 	t_data	img;
-	t_2int	coor;
+	int		coor_y;
 	int		color;
 
 	mlx_window = mlx_new_window(info.mlx, info.res.x, info.res.y, "Cub3d");
 	img.img = mlx_new_image(info.mlx, info.res.x, info.res.y);
 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,
 																&img.endian);
-	coor.y = 0;
-	while (coor.y < info.res.y)
+	coor_y = 0;
+	while (coor_y < info.res.y)
 	{
-		coor.x = 0;
-		if (coor.y < info.res.y / 2)
-			color = info.ceiling.mlx;
+		if (coor_y < info.res.y / 2)
+			ft_set_horizontal_line_color(&img, info.res.x, coor_y,
+															info.ceiling.mlx);
 		else
-			color = info.floor.mlx;
-		while (coor.x < info.res.x)
-		{
-			my_mlx_pixel_put(&img, coor.x, coor.y, color);
-			coor.x++;
-		}
-		coor.y++;
+			ft_set_horizontal_line_color(&img, info.res.x, coor_y,
+																info.floor.mlx);
+		coor_y++;
 	}
-	ft_start(info, &img);
-	mlx_put_image_to_window(info.mlx, mlx_window, img.img, 0, 0);
+	ft_start(info, &img, mlx_window);
+	mlx_hook(mlx_window, 2, 1L << 0, ft_key_press, &info.move);
+	mlx_hook(mlx_window, 3, 1L << 1, ft_key_release, &info.move);
+	mlx_loop_hook(info.mlx, ft_process_movement, &info);
 	mlx_loop(info.mlx);
 }

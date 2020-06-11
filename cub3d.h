@@ -5,30 +5,34 @@
 /*                                                     +:+                    */
 /*   By: avan-ber <avan-ber@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2020/03/04 11:07:52 by avan-ber       #+#    #+#                */
-/*   Updated: 2020/03/12 16:14:20 by avan-ber      ########   odam.nl         */
+/*   Created: 2020/03/04 11:07:52 by avan-ber      #+#    #+#                 */
+/*   Updated: 2020/06/11 19:02:06 by avan-ber      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# include <stdint.h>
 # include "libft.h"
 # include "get_next_line_bonus.h"
 # include "mlx.h"
-#include <math.h>
 # include "vla.h"
+# include <math.h>
+# include <stdint.h>
 # include <stdbool.h>
 # include <unistd.h>
 # include <stdio.h>
 # include <fcntl.h>
 
-typedef struct	s_2doub
+typedef struct	s_move
 {
-	double x;
-	double y;
-}				t_2doub;
+	bool		forward;
+	bool		backword;
+	bool		left;
+	bool		right;
+}				t_move;
+
+
 
 typedef	struct	s_line
 {
@@ -151,7 +155,6 @@ typedef struct	s_map
 */
 typedef struct	s_info
 {
-	void			*mlx;
 	t_res			res;
 	t_colorelem		floor;
 	t_colorelem		ceiling;
@@ -167,7 +170,10 @@ typedef struct	s_info
 **==============================================================================
 */
 
-
+void			ft_make_frame(t_info info, t_ray ray, t_data *img, void *mlx_window);
+int				ft_key_press(int keycode, t_move *move);
+int				ft_key_release(int keycode, t_move *move);
+int				ft_process_movement(t_ray *ray, t_move move);
 void			get_texture(void *mlx, char **texture, t_texelem *loc);
 void			get_resolution(char **data, t_res *resolution, void *mlx);
 void			get_color(char **data, t_colorelem *loc);
