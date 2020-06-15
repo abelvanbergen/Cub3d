@@ -5,8 +5,8 @@
 /*                                                     +:+                    */
 /*   By: avan-ber <avan-ber@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2020/03/04 15:30:04 by avan-ber       #+#    #+#                */
-/*   Updated: 2020/03/12 15:14:17 by avan-ber      ########   odam.nl         */
+/*   Created: 2020/03/04 15:30:04 by avan-ber      #+#    #+#                 */
+/*   Updated: 2020/06/15 12:55:27 by avan-ber      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,42 +15,42 @@
 void	get_identifier(t_info *info, char **data)
 {
 	if (ft_strncmp("R", data[0], 2) == 0)
-		get_resolution(data, &info->res, &info->mlx);
+		get_resolution(data, &info->parse.res, &info->mlx);
 	else if (ft_strncmp("S", data[0], 2) == 0)
-		get_texture(info->mlx, data, &info->sprite_tex);
+		get_texture(info->mlx.mlx, data, &info->parse.sprite_tex);
 	else if (ft_strncmp("NO", data[0], 3) == 0)
-		get_texture(info->mlx, data, &info->north_tex);
+		get_texture(info->mlx.mlx, data, &info->parse.north_tex);
 	else if (ft_strncmp("EA", data[0], 3) == 0)
-		get_texture(info->mlx, data, &info->east_tex);
+		get_texture(info->mlx.mlx, data, &info->parse.east_tex);
 	else if (ft_strncmp("SO", data[0], 3) == 0)
-		get_texture(info->mlx, data, &info->south_tex);
+		get_texture(info->mlx.mlx, data, &info->parse.south_tex);
 	else if (ft_strncmp("WE", data[0], 3) == 0)
-		get_texture(info->mlx, data, &info->west_tex);
+		get_texture(info->mlx.mlx, data, &info->parse.west_tex);
 	else if (ft_strncmp("C", data[0], 2) == 0)
-		get_color(data, &info->ceiling);
+		get_color(data, &info->parse.ceiling);
 	else if (ft_strncmp("F", data[0], 2) == 0)
-		get_color(data, &info->floor);
+		get_color(data, &info->parse.floor);
 	else
 		error_message1("Not all the elements are give", 1);
 }
 
 int		ft_everything_set(t_info info)
 {
-	if (info.res.set == 0)
+	if (info.parse.res.set == 0)
 		return (0);
-	if (info.north_tex.set == 0)
+	if (info.parse.north_tex.set == 0)
 		return (0);
-	if (info.east_tex.set == 0)
+	if (info.parse.east_tex.set == 0)
 		return (0);
-	if (info.south_tex.set == 0)
+	if (info.parse.south_tex.set == 0)
 		return (0);
-	if (info.west_tex.set == 0)
+	if (info.parse.west_tex.set == 0)
 		return (0);
-	if (info.floor.set == 0)
+	if (info.parse.floor.set == 0)
 		return (0);
-	if (info.ceiling.set == 0)
+	if (info.parse.ceiling.set == 0)
 		return (0);
-	if (info.sprite_tex.set == 0)
+	if (info.parse.sprite_tex.set == 0)
 		return (0);
 	return (1);
 }
@@ -169,11 +169,11 @@ void	ft_parsefile(t_info *info, char *filename)
 		error_message1("There is no map given", 1);
 	if (ft_vla_char_resize(&vla) == -1)
 		error_message1("ft_vla_char_resize failed", 1);
-	ft_get_size_map_char(vla.map, &info->map.size.x, &info->map.size.y);
-	ft_fill_map(&info->map, vla.map);
+	ft_get_size_map_char(vla.map, &info->parse.map.size.x, &info->parse.map.size.y);
+	ft_fill_map(&info->parse.map, vla.map);
 	ft_free_map_char(vla.map);
-	ret = ft_floodfill_8neighbors(ft_intmapdup(info->map.map, info->map.size),
-		info->map.size, info->map.posplayer.coor.x, info->map.posplayer.coor.y);
+	ret = ft_floodfill_8neighbors(ft_intmapdup(info->parse.map.map, info->parse.map.size),
+		info->parse.map.size, info->parse.map.posplayer.coor.x, info->parse.map.posplayer.coor.y);
 	if (ret == -1)
 		error_message1("The map is not closed", 1);
 	printf("Parse is compleet!\n");
@@ -185,7 +185,7 @@ int	main(int ac, char **av)
 	t_info	info;
 
 	ft_bzero(&info, sizeof(t_info));
-	info.mlx = mlx_init();
+	info.mlx.mlx = mlx_init();
 	ft_parsefile(&info, av[1]);
 	ft_cub3d_raytrace(info);
 }
