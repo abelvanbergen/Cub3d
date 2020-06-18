@@ -5,8 +5,8 @@
 /*                                                     +:+                    */
 /*   By: avan-ber <avan-ber@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2019/10/30 15:36:22 by avan-ber       #+#    #+#                */
-/*   Updated: 2020/03/10 16:44:01 by avan-ber      ########   odam.nl         */
+/*   Created: 2019/10/30 15:36:22 by avan-ber      #+#    #+#                 */
+/*   Updated: 2020/06/18 13:10:07 by avan-ber      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int					ft_memcmp(const void *s1, const void *s2, size_t n);
 void				*ft_memcpy(void *dst, const void *src, size_t n);
 void				*ft_memmove(void *dst, const void *src, size_t len);
 void				*ft_memset(void *b, int c, size_t len);
-void				ft_print_data(char **data);
+void				ft_print_map_char(char **data);
 void				ft_putchar_fd(char c, int fd);
 void				ft_putendl_fd(char *s, int fd);
 void				ft_putnbr_fd(int nb, int fd);

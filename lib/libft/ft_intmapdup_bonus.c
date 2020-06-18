@@ -5,8 +5,8 @@
 /*                                                     +:+                    */
 /*   By: avan-ber <avan-ber@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2020/03/10 16:36:24 by avan-ber       #+#    #+#                */
-/*   Updated: 2020/03/10 16:36:53 by avan-ber      ########   odam.nl         */
+/*   Created: 2020/03/10 16:36:24 by avan-ber      #+#    #+#                 */
+/*   Updated: 2020/06/18 14:36:03 by avan-ber      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	**ft_intmapdup(int **map, t_2int size)
 	int j;
 	int	**dup;
 
-	dup = ft_make_map_int(size.x, size.y);
+	dup = ft_make_map_int(size.y, size.x);
 	if (dup == 0)
 		return (0);
 	j = 0;

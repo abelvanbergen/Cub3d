@@ -6,7 +6,7 @@
 /*   By: avan-ber <avan-ber@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/03/11 11:40:45 by avan-ber      #+#    #+#                 */
-/*   Updated: 2020/06/15 17:55:35 by avan-ber      ########   odam.nl         */
+/*   Updated: 2020/06/18 13:42:44 by avan-ber      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,42 +142,6 @@ void		ft_digital_differential_analysis(t_ray *ray)
 	}
 }
 
-void	ft_put_line_to_window(t_info *info, t_imginfo *new_img, int x, int color)
-{
-	int			i;
-
-	i = 0;
-	while (i < info->parse.res.y)
-	{
-		if (i < info->ray.line.start)
-			my_mlx_pixel_put(new_img, x, i, info->parse.ceiling.mlx);
-		else if (i > info->ray.line.end)
-			my_mlx_pixel_put(new_img, x, i, info->parse.floor.mlx);
-		else
-			my_mlx_pixel_put(new_img, x, i, color);
-		i++;
-	}
-}
-
-void	ft_print_map_int(int **map, t_2int size)
-{
-	int i;
-	int j;
-
-	j = 0;
-	while (j < size.y)
-	{
-		i = 0;
-		while (i < size.x)
-		{
-			printf("%d ", map[j][i]);
-			i++;
-		}
-		printf("\n");
-		j++;
-	}
-}
-
 t_2int	ft_get_pos_map(t_2doub pos)
 {
 	t_2int pos_map;
@@ -209,10 +173,7 @@ void	ft_make_frame(t_info *info)
 		ft_digital_differential_analysis(&info->ray);
 		ft_set_perpendicular_wall_distance(&info->ray);
 		ft_set_line(&info->ray, info->parse.res.y);
-		if (info->ray.side == 1)
-			ft_put_line_to_window(info, new_img, coor_x, 0xFF0000);
-		else
-			ft_put_line_to_window(info, new_img, coor_x, 0xFF0000 / 3);
+		ft_put_texture(info, new_img, coor_x);
 		coor_x++;
 	}
 	mlx_put_image_to_window(info->mlx.mlx, info->mlx.mlx_window, new_img->img, 0, 0);
@@ -239,8 +200,9 @@ void	ft_cub3d_raytrace(t_info info)
 	info.img.two.addr = mlx_get_data_addr(info.img.two.img,
 	&info.img.two.bits_per_pixel, &info.img.two.line_length, &info.img.two.endian);
 	ft_start(&info);
-	mlx_hook(info.mlx.mlx_window, 2, 1L << 0, ft_key_press, &info.move);
+	mlx_hook(info.mlx.mlx_window, 2, 1L << 0, ft_key_press, &info);
 	mlx_hook(info.mlx.mlx_window, 3, 1L << 1, ft_key_release, &info.move);
+	mlx_hook(info.mlx.mlx_window, 17, 1L << 17, ft_close_screen, &info);
 	mlx_loop_hook(info.mlx.mlx, ft_process_movement, &info);
 	mlx_loop(info.mlx.mlx);
 }

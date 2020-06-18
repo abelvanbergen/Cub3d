@@ -6,7 +6,7 @@
 /*   By: avan-ber <avan-ber@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/11 18:50:23 by avan-ber      #+#    #+#                 */
-/*   Updated: 2020/06/15 18:42:49 by avan-ber      ########   odam.nl         */
+/*   Updated: 2020/06/17 13:32:08 by avan-ber      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,21 @@ typedef struct	s_2doub
 }				t_2doub;
 
 /*
+** Cub3d utils image elem
+*/
+typedef struct  s_imginfo
+{
+    void		*img;
+    char        *addr;
+    int         bits_per_pixel;
+    int         line_length;
+    int         endian;
+	int			img_width;
+	int			img_height;
+	bool		set;
+}               t_imginfo;
+
+/*
 **==============================================================================
 */
 
@@ -86,7 +101,7 @@ typedef struct	s_2doub
 typedef struct	s_move
 {
 	bool		forward;
-	bool		backword;
+	bool		backward;
 	bool		left;
 	bool		right;
 	bool		rot_left;
@@ -165,11 +180,11 @@ typedef struct	s_parse
 	t_res			res;
 	t_colorelem		floor;
 	t_colorelem		ceiling;
-	t_texelem		sprite_tex;
-	t_texelem		north_tex;
-	t_texelem		east_tex;
-	t_texelem		south_tex;
-	t_texelem		west_tex;
+	t_imginfo		sprite_tex;
+	t_imginfo		north_tex;
+	t_imginfo		east_tex;
+	t_imginfo		south_tex;
+	t_imginfo		west_tex;
 	t_map			map;
 }				t_parse;
 
@@ -212,6 +227,7 @@ typedef struct	s_ray
 	int		side;
 	double	perp_wall_dist;
 	t_line	line;
+	double	wall_x;
 }				t_ray;
 
 /*
@@ -225,19 +241,7 @@ typedef struct	s_ray
 */
 
 /*
-** Cub3d image elem
-*/
-typedef struct  s_imginfo
-{
-    void		*img;
-    char        *addr;
-    int         bits_per_pixel;
-    int         line_length;
-    int         endian;
-}               t_imginfo;
-
-/*
-** Cub3d image
+** Cub3d image info
 */
 typedef struct	s_img
 {
@@ -295,11 +299,20 @@ typedef struct  s_info
 /*
 ** Cub3d prototypes ------------------------------------------------------------
 */
+void			ft_put_texture(t_info *info, t_imginfo *img, int x);
+void			my_mlx_pixel_put(t_imginfo *img, int x, int y, int color);
+void			ft_get_texture(t_info *info);
+int				ft_close_screen(t_info *info);
+void			ft_rotate(double rot, t_info *info);
+void			ft_move_forward(t_info *info);
+void			ft_move_backward(t_info *info);
+void			ft_move_left(t_info *info);
+void			ft_move_right(t_info *info);
 void			ft_make_frame(t_info *info);
-int				ft_key_press(int keycode, t_move *move);
+int				ft_key_press(int keycode, t_info *info);
 int				ft_key_release(int keycode, t_move *move);
 int				ft_process_movement(t_info *info);
-void			get_texture(void *mlx, char **texture, t_texelem *loc);
+void			get_texture(void *mlx, char **texture, t_imginfo *loc);
 void			get_resolution(char **data, t_res *resolution, void *mlx);
 void			get_color(char **data, t_colorelem *loc);
 void			error_message1(char *message, int exitvalue);

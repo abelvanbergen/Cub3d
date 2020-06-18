@@ -5,8 +5,8 @@
 /*                                                     +:+                    */
 /*   By: avan-ber <avan-ber@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2020/03/10 16:35:16 by avan-ber       #+#    #+#                */
-/*   Updated: 2020/03/10 16:55:29 by avan-ber      ########   odam.nl         */
+/*   Created: 2020/03/10 16:35:16 by avan-ber      #+#    #+#                 */
+/*   Updated: 2020/06/18 14:06:55 by avan-ber      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,8 @@ void	ft_fill_map(t_map *map, char **map_char)
 	t_2int		coor;
 	int			row_len;
 
-	map->map = ft_make_map_int(map->size.x, map->size.y);
+	printf("map->size.y: %d\nmap->size.x: %d\n", map->size.y, map->size.x);
+	map->map = ft_make_map_int(map->size.y, map->size.x);
 	if (!map)
 		error_message1("ft_make_map_int failed", 1);
 	coor.y = 0;

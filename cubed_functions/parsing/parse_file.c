@@ -6,7 +6,7 @@
 /*   By: avan-ber <avan-ber@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/03/04 15:30:04 by avan-ber      #+#    #+#                 */
-/*   Updated: 2020/06/15 12:55:27 by avan-ber      ########   odam.nl         */
+/*   Updated: 2020/06/18 15:12:04 by avan-ber      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int		ft_everything_set(t_info info)
 	return (1);
 }
 
-int	ft_get_size_map_char(char **data, int *column, int *row)
+int	ft_get_size_map_char(char **data, int *result_x, int *result_y)
 {
 	int x;
 	int y;
@@ -75,8 +75,8 @@ int	ft_get_size_map_char(char **data, int *column, int *row)
 			x = len;
 		y++;
 	}
-	*column = x;
-	*row = y;
+	*result_x = x;
+	*result_y = y;
 	return (0);
 }
 
@@ -86,7 +86,10 @@ int	ft_floodfill_8neighbors(int **map, t_2int size, int x, int y)
 	int	j;
 
 	if (x < 0 || x >= size.x || y < 0 || y >= size.y || map[y][x] == ' ')
+	{
+		printf("het is de eertse check\n");
 		return (-1);
+	}
 	else if (map[y][x] == 1)
 		return (0);
 	else
@@ -106,6 +109,25 @@ int	ft_floodfill_8neighbors(int **map, t_2int size, int x, int y)
 			i++;
 		}
 		return (1);
+	}
+}
+
+void	ft_print_map_int(int **map, int y, int x)
+{
+	int i;
+	int j;
+
+	j = 0;
+	while (j < y)
+	{
+		i = 0;
+		while (i < x)
+		{
+			printf("%2d", map[j][i]);
+			i++;
+		}
+		j++;
+		printf("\n");
 	}
 }
 
@@ -177,7 +199,6 @@ void	ft_parsefile(t_info *info, char *filename)
 	if (ret == -1)
 		error_message1("The map is not closed", 1);
 	printf("Parse is compleet!\n");
-	printf("print nog iets\n");
 }
 
 int	main(int ac, char **av)
@@ -188,4 +209,5 @@ int	main(int ac, char **av)
 	info.mlx.mlx = mlx_init();
 	ft_parsefile(&info, av[1]);
 	ft_cub3d_raytrace(info);
+	return (0);
 }

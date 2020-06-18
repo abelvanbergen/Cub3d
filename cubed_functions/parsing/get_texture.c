@@ -5,14 +5,14 @@
 /*                                                     +:+                    */
 /*   By: avan-ber <avan-ber@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2020/03/04 10:47:37 by avan-ber       #+#    #+#                */
-/*   Updated: 2020/03/06 11:50:46 by avan-ber      ########   odam.nl         */
+/*   Created: 2020/03/04 10:47:37 by avan-ber      #+#    #+#                 */
+/*   Updated: 2020/06/17 12:21:26 by avan-ber      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	get_texture(void *mlx, char **texture, t_texelem *loc)
+void	get_texture(void *mlx, char **texture, t_imginfo *loc)
 {
 	if (loc->set == 1)
 		error_message2("This element already exist\nElemnt: ", texture[0], 1);
@@ -23,5 +23,6 @@ void	get_texture(void *mlx, char **texture, t_texelem *loc)
 											&loc->img_width, &loc->img_height);
 	if (loc->img == 0)
 		error_message2("Path to texture is invalid\nTexture: ", texture[0], 1);
+	loc->addr = mlx_get_data_addr(loc->img, &loc->bits_per_pixel, &loc->line_length, &loc->endian);
 	loc->set = 1;
 }
