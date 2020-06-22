@@ -1,28 +1,15 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_memset.c                                        :+:    :+:            */
+/*   global.c                                           :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: avan-ber <avan-ber@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2019/10/30 09:18:19 by avan-ber      #+#    #+#                 */
-/*   Updated: 2020/06/19 16:05:40 by avan-ber      ########   odam.nl         */
+/*   Created: 2020/06/19 17:20:24 by avan-ber      #+#    #+#                 */
+/*   Updated: 2020/06/19 17:21:23 by avan-ber      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
+#include "cub3d.h"
 
-void	*ft_memset(void *b, int c, size_t len)
-{
-	int		*buf;
-	size_t	i;
-
-	buf = (int*)b;
-	i = 0;
-	while (i < len)
-	{
-		buf[i] = c;
-		i++;
-	}
-	return (b);
-}
+t_parse g_parse = {0};

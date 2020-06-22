@@ -6,19 +6,11 @@
 /*   By: avan-ber <avan-ber@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/03/11 11:40:45 by avan-ber      #+#    #+#                 */
-/*   Updated: 2020/06/18 13:42:44 by avan-ber      ########   odam.nl         */
+/*   Updated: 2020/06/22 16:47:54 by avan-ber      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-void			my_mlx_pixel_put(t_imginfo *img, int x, int y, int color)
-{
-	char	*dst;
-
-	dst = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
-	*(unsigned int*)dst = color;
-}
 
 void	ft_set_direction_and_plane(t_ray *ray, int rot)
 {
@@ -88,17 +80,19 @@ void	ft_set_line(t_ray *ray, int h)
 		ray->line.end = h - 1;
 }
 
-void	ft_set_perpendicular_wall_distance(t_ray *ray)
+void	ft_set_perpendicular_wall_distance(t_ray *ray, int coor_x)
 {
 	if (ray->side == 0)
 	{
 		ray->perp_wall_dist = (ray->pos_map.x - ray->pos.x +
 										(1 - ray->step.x) / 2) / ray->ray_dir.x;
+		ray->zbuffer[coor_x] = ray->perp_wall_dist;
 	}
 	else
 	{
 		ray->perp_wall_dist = (ray->pos_map.y - ray->pos.y +
 										(1 - ray->step.y) / 2) / ray->ray_dir.y;
+		ray->zbuffer[coor_x] = ray->perp_wall_dist;
 	}
 }
 
@@ -171,11 +165,12 @@ void	ft_make_frame(t_info *info)
 		info->ray.delta_dist = ft_set_start_deltadistance(info->ray.ray_dir);
 		ft_set_step_and_sidedistance(&info->ray, info->ray.pos_map);
 		ft_digital_differential_analysis(&info->ray);
-		ft_set_perpendicular_wall_distance(&info->ray);
+		ft_set_perpendicular_wall_distance(&info->ray, coor_x);
 		ft_set_line(&info->ray, info->parse.res.y);
 		ft_put_texture(info, new_img, coor_x);
 		coor_x++;
 	}
+	ft_draw_sprite(info, new_img);
 	mlx_put_image_to_window(info->mlx.mlx, info->mlx.mlx_window, new_img->img, 0, 0);
 }
 
@@ -187,6 +182,7 @@ void	ft_start(t_info *info)
 	info->ray.map = info->parse.map.map;
 	info->ray.pos = ft_set_start_position_player(info->parse.map.posplayer.coor);
 	ft_set_direction_and_plane(&info->ray, info->parse.map.posplayer.rot);
+	info->ray.zbuffer = ft_calloc(info->parse.res.x, sizeof(double));
 	ft_make_frame(info);
 }
 

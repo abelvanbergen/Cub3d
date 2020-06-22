@@ -6,7 +6,7 @@
 /*   By: avan-ber <avan-ber@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/03/04 15:30:04 by avan-ber      #+#    #+#                 */
-/*   Updated: 2020/06/18 15:12:04 by avan-ber      ########   odam.nl         */
+/*   Updated: 2020/06/22 17:42:46 by avan-ber      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	get_identifier(t_info *info, char **data)
 	if (ft_strncmp("R", data[0], 2) == 0)
 		get_resolution(data, &info->parse.res, &info->mlx);
 	else if (ft_strncmp("S", data[0], 2) == 0)
-		get_texture(info->mlx.mlx, data, &info->parse.sprite_tex);
+		get_texture(info->mlx.mlx, data, &info->parse.sprite.tex);
 	else if (ft_strncmp("NO", data[0], 3) == 0)
 		get_texture(info->mlx.mlx, data, &info->parse.north_tex);
 	else if (ft_strncmp("EA", data[0], 3) == 0)
@@ -31,7 +31,7 @@ void	get_identifier(t_info *info, char **data)
 	else if (ft_strncmp("F", data[0], 2) == 0)
 		get_color(data, &info->parse.floor);
 	else
-		error_message1("Not all the elements are give", 1);
+		error_message1("Not all the elements are given", 1);
 }
 
 int		ft_everything_set(t_info info)
@@ -50,7 +50,7 @@ int		ft_everything_set(t_info info)
 		return (0);
 	if (info.parse.ceiling.set == 0)
 		return (0);
-	if (info.parse.sprite_tex.set == 0)
+	if (info.parse.sprite.tex.set == 0)
 		return (0);
 	return (1);
 }
@@ -192,12 +192,14 @@ void	ft_parsefile(t_info *info, char *filename)
 	if (ft_vla_char_resize(&vla) == -1)
 		error_message1("ft_vla_char_resize failed", 1);
 	ft_get_size_map_char(vla.map, &info->parse.map.size.x, &info->parse.map.size.y);
-	ft_fill_map(&info->parse.map, vla.map);
+	ft_fill_map(&info->parse.map, vla.map, &info->parse.sprite.count);
 	ft_free_map_char(vla.map);
 	ret = ft_floodfill_8neighbors(ft_intmapdup(info->parse.map.map, info->parse.map.size),
 		info->parse.map.size, info->parse.map.posplayer.coor.x, info->parse.map.posplayer.coor.y);
 	if (ret == -1)
 		error_message1("The map is not closed", 1);
+	ft_set_pos_sprite(&info->parse.sprite, info->parse.map.map,
+														info->parse.map.size);
 	printf("Parse is compleet!\n");
 }
 

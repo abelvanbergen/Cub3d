@@ -6,7 +6,7 @@
 /*   By: avan-ber <avan-ber@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/03/10 16:35:16 by avan-ber      #+#    #+#                 */
-/*   Updated: 2020/06/18 14:06:55 by avan-ber      ########   odam.nl         */
+/*   Updated: 2020/06/22 11:54:42 by avan-ber      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,16 @@ static int	ft_set_posplayer(t_map *map, int rot, t_2int coor)
 	return (9);
 }
 
-static int	ft_fill_map_get_int(char c, t_map *map, t_2int coor)
+static int	ft_fill_map_get_int(char c, t_map *map, t_2int coor,
+															int *sprite_count)
 {
 	if (c == '1')
 		return (1);
 	else if (c == '2')
+	{
+		(*sprite_count)++;
 		return (2);
+	}
 	else if (c == '0')
 		return (0);
 	else if (c == ' ')
@@ -60,12 +64,11 @@ static int	ft_fill_map_get_int(char c, t_map *map, t_2int coor)
 	return (0);
 }
 
-void	ft_fill_map(t_map *map, char **map_char)
+void	ft_fill_map(t_map *map, char **map_char, int *sprite_count)
 {
 	t_2int		coor;
 	int			row_len;
 
-	printf("map->size.y: %d\nmap->size.x: %d\n", map->size.y, map->size.x);
 	map->map = ft_make_map_int(map->size.y, map->size.x);
 	if (!map)
 		error_message1("ft_make_map_int failed", 1);
@@ -78,7 +81,7 @@ void	ft_fill_map(t_map *map, char **map_char)
 		{
 			if (coor.x < row_len)
 				map->map[coor.y][coor.x] = \
-					ft_fill_map_get_int(map_char[coor.y][coor.x], map, coor);
+	ft_fill_map_get_int(map_char[coor.y][coor.x], map, coor, sprite_count);
 			else
 				map->map[coor.y][coor.x] = ' ';
 			coor.x++;

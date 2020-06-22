@@ -6,7 +6,7 @@
 /*   By: avan-ber <avan-ber@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/03/04 11:14:04 by avan-ber      #+#    #+#                 */
-/*   Updated: 2020/06/18 12:04:43 by avan-ber      ########   odam.nl         */
+/*   Updated: 2020/06/22 16:40:44 by avan-ber      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,12 @@ int	ft_arraylen(char **data)
 	while (data[i] != '\0')
 		i++;
 	return (i);
+}
+
+void			my_mlx_pixel_put(t_imginfo *img, int x, int y, int color)
+{
+	char	*dst;
+
+	dst = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
+	*(unsigned int*)dst = color;
 }

@@ -6,7 +6,7 @@
 #    By: avan-ber <avan-ber@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/02/28 13:20:50 by avan-ber      #+#    #+#                  #
-#    Updated: 2020/06/16 18:39:19 by avan-ber      ########   odam.nl          #
+#    Updated: 2020/06/22 14:10:08 by avan-ber      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,8 @@ SRCS =	cubed_functions/cub3d_utils/cub3d_utils1.c \
 		cubed_functions/raytraycing/ft_cub3d_raytrace.c \
 		cubed_functions/raytraycing/ft_hooks.c \
 		cubed_functions/raytraycing/ft_move.c \
-		cubed_functions/raytraycing/ft_render_textures.c
+		cubed_functions/raytraycing/ft_render_textures.c \
+		cubed_functions/parsing/ft_sprite.c
 FRAMEWORK =	-framework OpenGl\
 			-framework AppKit
 OFILES = $(SRCS:.c=.o)
