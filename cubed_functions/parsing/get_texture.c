@@ -6,7 +6,7 @@
 /*   By: avan-ber <avan-ber@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/03/04 10:47:37 by avan-ber      #+#    #+#                 */
-/*   Updated: 2020/06/17 12:21:26 by avan-ber      ########   odam.nl         */
+/*   Updated: 2020/06/23 16:58:13 by avan-ber      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	get_texture(void *mlx, char **texture, t_imginfo *loc)
 											&loc->img_width, &loc->img_height);
 	if (loc->img == 0)
 		error_message2("Path to texture is invalid\nTexture: ", texture[0], 1);
-	loc->addr = mlx_get_data_addr(loc->img, &loc->bits_per_pixel, &loc->line_length, &loc->endian);
+	loc->addr = mlx_get_data_addr(loc->img, &loc->bits_per_pixel,
+											&loc->line_length, &loc->endian);
 	loc->set = 1;
 }

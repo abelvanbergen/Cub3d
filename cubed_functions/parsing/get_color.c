@@ -5,8 +5,8 @@
 /*                                                     +:+                    */
 /*   By: avan-ber <avan-ber@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2020/03/04 12:28:46 by avan-ber       #+#    #+#                */
-/*   Updated: 2020/03/12 14:12:31 by avan-ber      ########   odam.nl         */
+/*   Created: 2020/06/23 16:57:52 by avan-ber      #+#    #+#                 */
+/*   Updated: 2020/06/23 17:30:06 by avan-ber      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int	ft_get_color(int color_nb, t_colorelem *loc, char *str)
 	return (ft_nondigit(str));
 }
 
-static void			ft_fill_union_color(t_colorelem *loc, char **data)
+static void	ft_fill_union_color(t_colorelem *loc, char **data)
 {
 	int		i;
 	int		ret;
@@ -41,18 +41,18 @@ static void			ft_fill_union_color(t_colorelem *loc, char **data)
 	i = 0;
 	ret = ft_get_color(red, loc, data[1]);
 	if (ret == -1)
-		error_message3("The color of a element does not have the right \
-								size\nElement: ", data[0], "\nColor: red", 1);
+		error_message3("The color of a element does not have the right size\
+		\nElement: ", data[0], "\nColor: red", 1);
 	i += ret + 1;
 	ret = ft_get_color(green, loc, &data[1][i]);
 	if (ret == -1)
-		error_message3("The color of a element does not have the right \
-								size\nElement: ", data[0], "\nColor: green", 1);
+		error_message3("The color of a element does not have the right size\
+		\nElement: ", data[0], "\nColor: green", 1);
 	i += ret + 1;
 	ret = ft_get_color(blue, loc, &data[1][i]);
 	if (ret == -1)
-		error_message3("The color of a element does not have the right \
-								size\nElement: ", data[0], "\nColor: blue", 1);
+		error_message3("The color of a element does not have the right size\
+		\nElement: ", data[0], "\nColor: blue", 1);
 }
 
 static void	ft_check_layout_color(char **data)
@@ -61,19 +61,19 @@ static void	ft_check_layout_color(char **data)
 
 	i = ft_nondigit(data[1]);
 	if (data[1][i] != ',')
-		error_message2("The color element does not have the right \
-											layout\nElement: 1", data[0], 1);
+		error_message2("The color element does not have the right layout\
+		\nElement: 1", data[0], 1);
 	i += ft_nondigit(&data[1][i + 1]) + 1;
 	if (data[1][i] != ',')
-		error_message2("The color element does not have the right \
-											layout\nElement: 2", data[0], 1);
+		error_message2("The color element does not have the right layout\
+		\nElement: 2", data[0], 1);
 	i += ft_nondigit(&data[1][i + 1]) + 1;
 	if (data[1][i] != '\0')
-		error_message2("The color element does not have the right \
-											layout\nElement: 3", data[0], 1);
+		error_message2("The color element does not have the right layout\
+		\nElement: 3", data[0], 1);
 }
 
-void	get_color(char **data, t_colorelem *loc)
+void		get_color(char **data, t_colorelem *loc)
 {
 	if (loc->set == 1)
 		error_message2("This element already exist\nElemnt: ", data[0], 1);

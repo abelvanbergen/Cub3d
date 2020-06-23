@@ -1,24 +1,18 @@
 R 1920 1080
-NO ./textures/bluestone.png
+NO ./textures/wood.png
 EA ./textures/colorstone.png
 
 
 SO ./textures/greystone.png
-WE ./textures/redbrick.png
-
+WE ./textures/mossy.png
 
 S ./textures/barrel.png
-C 0,255,0
-F 0,0,255
+C 104,130,158
+F 87,89,93
 
-    1111111111111
-    1000000000001
-    1111110000001
-         10000001
-         10000001
-         10000001
-11111111110000001
-10000000000S00001
-10000000000000001
-11111111111111111
+1111111111
+10000000011
+12000S00201
+10000000111
+1111111111
 

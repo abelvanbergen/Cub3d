@@ -6,7 +6,7 @@
 /*   By: avan-ber <avan-ber@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/11 14:28:44 by avan-ber      #+#    #+#                 */
-/*   Updated: 2020/06/17 17:00:28 by avan-ber      ########   odam.nl         */
+/*   Updated: 2020/06/23 13:13:43 by avan-ber      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 #define LEFT_ARROW_KEY 123
 #define RIGHT_ARROW_KEY 124
 #define ESC_KEY 53
-#define	LEFT -0.04
-#define	RIGHT 0.04
+#define LEFT -0.04
+#define RIGHT 0.04
 
 int	ft_close_screen(t_info *info)
 {
@@ -30,7 +30,7 @@ int	ft_close_screen(t_info *info)
 	return (0);
 }
 
-int		ft_key_press(int keycode, t_info *info)
+int	ft_key_press(int keycode, t_info *info)
 {
 	if (keycode == W_KEY)
 		info->move.forward = 1;
@@ -49,7 +49,7 @@ int		ft_key_press(int keycode, t_info *info)
 	return (0);
 }
 
-int		ft_key_release(int keycode, t_move *move)
+int	ft_key_release(int keycode, t_move *move)
 {
 	if (keycode == W_KEY)
 		move->forward = 0;
@@ -66,7 +66,7 @@ int		ft_key_release(int keycode, t_move *move)
 	return (0);
 }
 
-int		ft_process_movement(t_info *info)
+int	ft_process_movement(t_info *info)
 {
 	if (info->move.forward == 1)
 		ft_move_forward(info);

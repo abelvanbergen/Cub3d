@@ -6,7 +6,7 @@
 /*   By: avan-ber <avan-ber@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/03/04 11:14:04 by avan-ber      #+#    #+#                 */
-/*   Updated: 2020/06/22 16:40:44 by avan-ber      ########   odam.nl         */
+/*   Updated: 2020/06/23 16:57:25 by avan-ber      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	error_message3(char *message1, char *message2, char *message3,
 	exit(exitvalue);
 }
 
-int	ft_arraylen(char **data)
+int		ft_arraylen(char **data)
 {
 	int i;
 
@@ -47,7 +47,7 @@ int	ft_arraylen(char **data)
 	return (i);
 }
 
-void			my_mlx_pixel_put(t_imginfo *img, int x, int y, int color)
+void	my_mlx_pixel_put(t_imginfo *img, int x, int y, int color)
 {
 	char	*dst;
 

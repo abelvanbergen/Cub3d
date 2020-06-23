@@ -6,7 +6,7 @@
 /*   By: avan-ber <avan-ber@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/03/10 16:35:16 by avan-ber      #+#    #+#                 */
-/*   Updated: 2020/06/22 11:54:42 by avan-ber      ########   odam.nl         */
+/*   Updated: 2020/06/23 16:59:46 by avan-ber      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int	ft_set_posplayer(t_map *map, int rot, t_2int coor)
 	map->posplayer.coor.x = coor.x;
 	map->posplayer.coor.y = coor.y;
 	map->posplayer.rot = rot;
-	return (9);
+	return (0);
 }
 
 static int	ft_fill_map_get_int(char c, t_map *map, t_2int coor,
@@ -64,7 +64,7 @@ static int	ft_fill_map_get_int(char c, t_map *map, t_2int coor,
 	return (0);
 }
 
-void	ft_fill_map(t_map *map, char **map_char, int *sprite_count)
+void		ft_fill_map(t_map *map, char **map_char, int *sprite_count)
 {
 	t_2int		coor;
 	int			row_len;
