@@ -6,7 +6,7 @@
 /*   By: avan-ber <avan-ber@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/16 18:18:52 by avan-ber      #+#    #+#                 */
-/*   Updated: 2020/06/22 12:59:05 by avan-ber      ########   odam.nl         */
+/*   Updated: 2020/06/23 10:33:46 by abelfrancis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ void	ft_draw_texture(t_info *info, t_imginfo texture, t_imginfo *img, int x)
 	ft_get_wall_x(&info->ray);
 	ft_get_tex_x(info->ray, texture, &tex);
 	tex_step = 1.0 * texture.img_height / info->ray.line.length;
-	tex_pos = (info->ray.line.start - info->parse.res.y / 2 + info->ray.line.length / 2) * tex_step;
+	tex_pos = (info->ray.line.start - info->parse.res.y / 2 +
+										info->ray.line.length / 2) * tex_step;
 	y = 0;
 	while (y < info->parse.res.y)
 	{

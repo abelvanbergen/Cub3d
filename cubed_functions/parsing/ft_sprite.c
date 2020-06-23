@@ -6,7 +6,7 @@
 /*   By: avan-ber <avan-ber@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/22 13:10:18 by avan-ber      #+#    #+#                 */
-/*   Updated: 2020/06/22 18:27:49 by avan-ber      ########   odam.nl         */
+/*   Updated: 2020/06/23 10:26:56 by abelfrancis   ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,8 @@ void	ft_sort_sprite_distance(t_sprite_pos *sprite_pos, int sprite_count)
 	}
 }
 
-void	ft_set_sprite_distance(t_sprite_pos *sprite_pos, int sprite_count, t_2doub pos)
+void	ft_set_sprite_distance(t_sprite_pos *sprite_pos, int sprite_count,
+																	t_2doub pos)
 {
 	int i;
 
@@ -87,9 +88,67 @@ void	ft_set_sprite_distance(t_sprite_pos *sprite_pos, int sprite_count, t_2doub 
 	while (i < sprite_count)
 	{
 		sprite_pos[i].distance = ((pos.x - sprite_pos[i].coor.x) *
-			(pos.x -sprite_pos[i].coor.x)) + ((pos.y - sprite_pos[i].coor.y) *
+			(pos.x - sprite_pos[i].coor.x)) + ((pos.y - sprite_pos[i].coor.y) *
 												(pos.y - sprite_pos[i].coor.y));
 		i++;
+	}
+}
+
+void	ft_set_drawstart_and_drawend(t_s_utils *utils, t_info *info)
+{
+	utils->drawstart.y = -utils->sprite_height / 2 + info->parse.res.y / 2;
+	if (utils->drawstart.y < 0)
+		utils->drawstart.y = 0;
+	utils->drawend.y = utils->sprite_height / 2 + info->parse.res.y / 2;
+	if (utils->drawend.y >= info->parse.res.y)
+		utils->drawend.y = info->parse.res.y - 1;
+	utils->sprite_width = abs((int)(info->parse.res.y / utils->transform.y));
+	utils->drawstart.x = -utils->sprite_width / 2 + utils->spritescreenx;
+	if (utils->drawstart.x < 0)
+		utils->drawstart.x = 0;
+	utils->drawend.x = utils->sprite_width / 2 + utils->spritescreenx;
+	if (utils->drawend.x >= info->parse.res.x)
+		utils->drawend.x = info->parse.res.x - 1;
+}
+
+void	ft_set_invdet_transform_and_spritescreenx(t_s_utils *utils,
+																t_info *info)
+{
+	utils->invdet = 1.0 /
+	(info->ray.plane.x * info->ray.dir.y - info->ray.dir.x * info->ray.plane.y);
+	utils->transform.x = utils->invdet *
+		(info->ray.dir.y * utils->sprite.x - info->ray.dir.x * utils->sprite.y);
+	utils->transform.y = utils->invdet * (-info->ray.plane.y
+					* utils->sprite.x + info->ray.plane.x * utils->sprite.y);
+	utils->spritescreenx = (int)((info->parse.res.x / 2) *
+								(1 + utils->transform.x / utils->transform.y));
+}
+
+void	ft_set_sprite_vertical_line(t_s_utils *utils, t_info *info,
+													t_imginfo *new_img, int j)
+{
+	int k;
+
+	utils->tex.x = (int)(256 * (j - (-utils->sprite_width / 2 +
+			utils->spritescreenx)) * info->parse.sprite.tex.img_width /
+													utils->sprite_width) / 256;
+	if (utils->transform.y > 0 && j > 0 && j < info->parse.res.x &&
+									utils->transform.y < info->ray.zbuffer[j])
+	{
+		k = utils->drawstart.y;
+		while (k < utils->drawend.y)
+		{
+			utils->d = k * 256 - info->parse.res.y * 128 +
+													utils->sprite_height * 128;
+			utils->tex.y = ((utils->d * info->parse.sprite.tex.img_height) /
+													utils->sprite_height) / 256;
+			utils->color = *(unsigned int*)(info->parse.sprite.tex.addr +
+				(utils->tex.y * info->parse.sprite.tex.line_length +
+				utils->tex.x * (info->parse.sprite.tex.bits_per_pixel / 8)));
+			if ((utils->color & 0x00FFFFFF) != 0)
+				my_mlx_pixel_put(new_img, j, k, utils->color);
+			k++;
+		}
 	}
 }
 
@@ -106,43 +165,15 @@ void	ft_draw_sprite(t_info *info, t_imginfo *new_img)
 	i = 0;
 	while (i < info->parse.sprite.count)
 	{
-		sprite.x = info->parse.sprite.pos[i].coor.x - info->ray.pos.x;
-		sprite.y = info->parse.sprite.pos[i].coor.y - info->ray.pos.y;
-		invdet = 1.0 / (info->ray.plane.x * info->ray.dir.y - info->ray.dir.x * info->ray.plane.y);
-		transform.x = invdet * (info->ray.dir.y * sprite.x - info->ray.dir.x * sprite.y);
-		transform.y = invdet * (-info->ray.plane.y * sprite.x + info->ray.plane.x * sprite.y);
-		spritescreenx = (int)((info->parse.res.x / 2) * (1 + transform.x / transform.y));
-		sprite_height = abs((int)(info->parse.res.y / transform.y));
-		drawstart_y = -sprite_height / 2 + info->parse.res.y / 2;
-		if (drawstart_y < 0)
-			drawstart_y = 0;
-		drawend_y = sprite_height / 2 + info->parse.res.y / 2;
-		if (drawend_y >= info->parse.res.y)
-			drawend_y = info->parse.res.y - 1;
-		sprite_width = abs((int)(info->parse.res.y / transform.y));
-		drawstart_x = -sprite_width / 2 + spritescreenx;
-		if (drawstart_x < 0)
-			drawstart_x = 0;
-		drawend_x = sprite_width / 2 + spritescreenx;
-		if (drawend_x >= info->parse.res.x)
-			drawend_x = info->parse.res.x - 1;
-		j = drawstart_x;
-		while (j < drawend_x)
+		utils.sprite.x = info->parse.sprite.pos[i].coor.x - info->ray.pos.x;
+		utils.sprite.y = info->parse.sprite.pos[i].coor.y - info->ray.pos.y;
+		ft_set_invdet_transform_and_spritescreenx(&utils, info);
+		utils.sprite_height = abs((int)(info->parse.res.y / utils.transform.y));
+		ft_set_drawstart_and_drawend(&utils, info);
+		j = utils.drawstart.x;
+		while (j < utils.drawend.x)
 		{
-			tex_x = (int)(256 * (j - (-sprite_width / 2 + spritescreenx)) * info->parse.sprite.tex.img_width / sprite_width) / 256;
-			if (transform.y > 0 && j > 0 && j < info->parse.res.x && transform.y < info->ray.zbuffer[j])
-			{
-				k = drawstart_y;
-				while (k < drawend_y)
-				{
-					d = k * 256 - info->parse.res.y * 128 + sprite_height * 128;
-					tex_y = ((d * info->parse.sprite.tex.img_height) / sprite_height) / 256;
-					color = *(unsigned int*)(info->parse.sprite.tex.addr + (tex_y * info->parse.sprite.tex.line_length + tex_x * (info->parse.sprite.tex.bits_per_pixel / 8)));
-					if ((color & 0x00FFFFFF) != 0)
-						my_mlx_pixel_put(new_img, j, k, color);
-					k++;
-				}
-			}
+			ft_set_sprite_vertical_line(&utils, info, new_img, j);
 			j++;
 		}
 		i++;
