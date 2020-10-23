@@ -5,15 +5,13 @@
 #                                                      +:+                     #
 #    By: avan-ber <avan-ber@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
-#    Created: 2020/03/02 16:23:36 by avan-ber       #+#    #+#                 #
-#    Updated: 2020/03/06 15:38:22 by avan-ber      ########   odam.nl          #
+#    Created: 2020/03/02 16:23:36 by avan-ber      #+#    #+#                  #
+#    Updated: 2020/06/30 16:22:29 by avan-ber      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libvla
-OBJECTS =	ft_vla_1.o \
-			ft_vla_2.o \
-			ft_vla_char1.o
+OBJECTS = ft_vla_char1.o
 
 LBLUE =		\033[38;5;14m
 BLUE =		\033[38;5;12m
@@ -48,5 +46,7 @@ fclean: clean
 	@ echo "$(RED)========================================"
 	@ echo "$(RED)||                DONE                ||"
 	@ echo "$(RED)========================================\n"
+
+re: fclean all
 
 .PHONY: all clean fclean re

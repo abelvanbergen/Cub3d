@@ -6,7 +6,7 @@
 /*   By: avan-ber <avan-ber@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/11 18:50:23 by avan-ber      #+#    #+#                 */
-/*   Updated: 2020/06/23 17:24:07 by avan-ber      ########   odam.nl         */
+/*   Updated: 2020/06/26 17:47:53 by avan-ber      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@
 # include <stdint.h>
 # include <stdbool.h>
 # include <unistd.h>
-# include <stdio.h>
 # include <fcntl.h>
+
 
 /*
 ** Cub3d enums -----------------------------------------------------------------
@@ -84,6 +84,54 @@ typedef struct  	s_imginfo
 	int				img_height;
 	bool			set;
 }					t_imginfo;
+
+/*
+**==============================================================================
+*/
+
+
+
+/*
+** Cub3d BMP image--------------------------------------------------------------
+*/
+
+/*
+** Cub3d BMP image header
+*/
+# pragma pack(push, 1)
+typedef struct					s_bmpheader
+{
+	uint16_t					type;
+	uint32_t					size;
+	uint16_t					reserved1;
+	uint16_t					reserved2;
+	uint32_t					offset;
+	uint32_t					dib_header_size;
+	int32_t						width_px;
+	int32_t						height_px;
+	uint16_t					num_planes;
+	uint16_t					bits_per_pixel;
+	uint32_t					compression;
+	uint32_t					image_size_bytes;
+	int32_t						x_resolution_ppm;
+	int32_t						y_resolution_ppm;
+	uint32_t					num_colors;
+	uint32_t					important_colors;
+}								t_bmpheader;
+
+/*
+** Cub3d BMP image ifo
+*/
+typedef struct					s_bmpimage
+{
+	t_bmpheader					header;
+	unsigned char				*data;
+	size_t						datasize;
+	int							padding;
+	int							linesize;
+	int							bits_per_pixel;
+}								t_bmpimage;
+# pragma pack(pop)
 
 /*
 **==============================================================================
@@ -285,7 +333,7 @@ typedef struct	s_img
 {
 	t_imginfo	one;
 	t_imginfo	two;
-	int			img_count;
+	int			count;
 }				t_img;
 /*
 **==============================================================================
@@ -326,6 +374,7 @@ typedef struct  s_info
 	t_parse		parse;
 	t_img		img;
 	t_move		move;
+	bool		save;
 }               t_info;
 
 /*
@@ -338,6 +387,9 @@ typedef struct  s_info
 ** Cub3d prototypes ------------------------------------------------------------
 */
 
+void			error_destroy(t_info *info, char *message);
+void			ft_make_screen_shot(t_info *info);
+void			ft_start(t_info *info);
 void			ft_draw_texture(t_info *info, t_imginfo texture,
 														t_imginfo *img, int x);
 void			ft_draw_sprite(t_info *info, t_imginfo *new_img);
@@ -358,8 +410,9 @@ void			ft_make_frame(t_info *info);
 int				ft_key_press(int keycode, t_info *info);
 int				ft_key_release(int keycode, t_move *move);
 int				ft_process_movement(t_info *info);
-void			get_texture(void *mlx, char **texture, t_imginfo *loc);
-void			get_resolution(char **data, t_res *resolution, void *mlx);
+void			get_texture(void *mlx, char *rot, char *line, t_imginfo *loc);
+void			get_resolution(char **data, t_res *resolution, void *mlx,
+																	bool save);
 void			get_color(char **data, t_colorelem *loc);
 void			error_message1(char *message, int exitvalue);
 void			error_message2(char *message1, char *message2, int exitvalue);
@@ -374,7 +427,6 @@ void			ft_parse_file_map(t_info *info, int fd, t_vla_char *vla);
 void			ft_parsefile(t_info *info, char *filename);
 void			ft_sort_sprite_distance(t_sprite_pos *sprite_pos,
 															int sprite_count);
-void			ft_set_pos_sprite(t_sprite *sprite, int **map, t_2int map_size);
 
 /*
 **==============================================================================

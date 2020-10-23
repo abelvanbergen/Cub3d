@@ -6,7 +6,7 @@
 /*   By: avan-ber <avan-ber@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/23 17:04:11 by avan-ber      #+#    #+#                 */
-/*   Updated: 2020/06/23 17:05:50 by avan-ber      ########   odam.nl         */
+/*   Updated: 2020/06/26 16:19:23 by avan-ber      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void		ft_set_pos_sprite(t_sprite *sprite, int **map, t_2int map_size)
 	int k;
 
 	sprite->pos = ft_calloc(sprite->count, sizeof(t_sprite_pos));
-	if (!sprite)
+	if (!sprite->pos)
 		error_message1("ft_calloc for t_sprite_pos failed", 1);
 	k = 0;
 	j = 0;

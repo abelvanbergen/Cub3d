@@ -6,7 +6,7 @@
 /*   By: avan-ber <avan-ber@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/23 13:34:26 by avan-ber      #+#    #+#                 */
-/*   Updated: 2020/06/23 14:11:17 by avan-ber      ########   odam.nl         */
+/*   Updated: 2020/06/26 13:37:40 by avan-ber      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,8 @@ void			ft_make_frame(t_info *info)
 	int			coor_x;
 	t_imginfo	*new_img;
 
-	info->img.img_count++;
-	if (info->img.img_count % 2 == 1)
-		new_img = &info->img.one;
-	else
-		new_img = &info->img.two;
+	info->img.count++;
+	new_img = info->img.count % 2 == 1 ? &info->img.one : &info->img.two;
 	coor_x = 0;
 	while (coor_x < info->parse.res.x)
 	{
@@ -38,6 +35,7 @@ void			ft_make_frame(t_info *info)
 		coor_x++;
 	}
 	ft_draw_sprite(info, new_img);
-	mlx_put_image_to_window(info->mlx.mlx, info->mlx.mlx_window,
+	if (info->save == 0)
+		mlx_put_image_to_window(info->mlx.mlx, info->mlx.mlx_window,
 															new_img->img, 0, 0);
 }

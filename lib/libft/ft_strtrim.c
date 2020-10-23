@@ -5,8 +5,8 @@
 /*                                                     +:+                    */
 /*   By: avan-ber <avan-ber@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2019/11/07 12:27:35 by avan-ber       #+#    #+#                */
-/*   Updated: 2019/11/12 14:21:00 by avan-ber      ########   odam.nl         */
+/*   Created: 2019/11/07 12:27:35 by avan-ber      #+#    #+#                 */
+/*   Updated: 2020/06/30 16:29:11 by avan-ber      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ static char	*empty_str(void)
 	char	*str;
 
 	str = (char*)malloc(1);
+	if (str == 0)
+		return (0);
 	str[0] = '\0';
 	return (str);
 }

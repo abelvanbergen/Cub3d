@@ -6,7 +6,7 @@
 /*   By: avan-ber <avan-ber@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/06/23 16:57:52 by avan-ber      #+#    #+#                 */
-/*   Updated: 2020/06/23 17:30:06 by avan-ber      ########   odam.nl         */
+/*   Updated: 2020/06/26 17:32:23 by avan-ber      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,14 +59,24 @@ static void	ft_check_layout_color(char **data)
 {
 	int i;
 
+	i = 0;
+	if (ft_isdigit(data[1][i]) == 0)
+		error_message2("The element does not have a number\
+		\nElement: 1", data[0], 1);
 	i = ft_nondigit(data[1]);
 	if (data[1][i] != ',')
 		error_message2("The color element does not have the right layout\
 		\nElement: 1", data[0], 1);
+	if (ft_isdigit(data[1][i + 1]) == 0)
+		error_message2("The element does not have a number\
+		\nElement: 2", data[0], 1);
 	i += ft_nondigit(&data[1][i + 1]) + 1;
 	if (data[1][i] != ',')
 		error_message2("The color element does not have the right layout\
 		\nElement: 2", data[0], 1);
+	if (ft_isdigit(data[1][i + 1]) == 0)
+		error_message2("The element does not have a number\
+		\nElement: 3", data[0], 1);
 	i += ft_nondigit(&data[1][i + 1]) + 1;
 	if (data[1][i] != '\0')
 		error_message2("The color element does not have the right layout\

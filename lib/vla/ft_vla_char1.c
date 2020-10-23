@@ -6,12 +6,11 @@
 /*   By: avan-ber <avan-ber@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/03/06 12:44:22 by avan-ber      #+#    #+#                 */
-/*   Updated: 2020/06/18 13:17:54 by avan-ber      ########   odam.nl         */
+/*   Updated: 2020/06/26 18:58:48 by avan-ber      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "vla.h"
-#include <stdio.h>
 
 static void	ft_free_map_char(char **map, int len)
 {
@@ -56,7 +55,7 @@ int			ft_vla_char_add_element(t_vla_char *vla, char *elem)
 		ret = ft_vla_char_expand_map(vla);
 		if (ret == -1)
 		{
-			free(vla->map);
+			ft_free_map_char(vla->map, vla->current_elem);
 			return (-1);
 		}
 	}

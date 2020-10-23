@@ -6,7 +6,7 @@
 /*   By: avan-ber <avan-ber@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/03/04 11:14:04 by avan-ber      #+#    #+#                 */
-/*   Updated: 2020/06/23 16:57:25 by avan-ber      ########   odam.nl         */
+/*   Updated: 2020/06/24 11:27:52 by avan-ber      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	error_message1(char *message, int exitvalue)
 
 void	error_message2(char *message1, char *message2, int exitvalue)
 {
-	write(1, "\033[0;31merror\033[0m\n", 17);
+	write(1, "\033[0;31m---error---\033[0m\n", 23);
 	write(1, message1, ft_strlen(message1));
 	ft_putendl_fd(message2, 1);
 	exit(exitvalue);
@@ -30,7 +30,7 @@ void	error_message2(char *message1, char *message2, int exitvalue)
 void	error_message3(char *message1, char *message2, char *message3,
 																int exitvalue)
 {
-	write(1, "\033[0;31merror\033[0m\n", 17);
+	write(1, "\033[0;31m---error---\033[0m\n", 23);
 	write(1, message1, ft_strlen(message1));
 	write(1, message2, ft_strlen(message2));
 	ft_putendl_fd(message3, 1);

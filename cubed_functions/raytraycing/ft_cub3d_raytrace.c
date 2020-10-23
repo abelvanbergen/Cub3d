@@ -6,7 +6,7 @@
 /*   By: avan-ber <avan-ber@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/03/11 11:40:45 by avan-ber      #+#    #+#                 */
-/*   Updated: 2020/06/23 13:48:08 by avan-ber      ########   odam.nl         */
+/*   Updated: 2020/06/26 17:49:18 by avan-ber      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static void		ft_set_direction_and_plane(t_ray *ray, int rot)
 	}
 }
 
-static void		ft_start(t_info *info)
+void			ft_start(t_info *info)
 {
 	int		x;
 
@@ -55,6 +55,8 @@ static void		ft_start(t_info *info)
 				ft_set_start_position_player(info->parse.map.posplayer.coor);
 	ft_set_direction_and_plane(&info->ray, info->parse.map.posplayer.rot);
 	info->ray.zbuffer = ft_calloc(info->parse.res.x, sizeof(double));
+	if (!info->ray.zbuffer)
+		error_message1("ft_calloc failed for zbuffer", 1);
 	ft_make_frame(info);
 }
 
@@ -62,20 +64,30 @@ static void		ft_get_images(t_info *info)
 {
 	info->img.one.img = mlx_new_image(info->mlx.mlx,
 										info->parse.res.x, info->parse.res.y);
+	if (info->img.one.img == 0)
+		error_destroy(info, "mlx_new_image failed");
 	info->img.one.addr = mlx_get_data_addr(info->img.one.img,
-					&info->img.one.bits_per_pixel, &info->img.one.line_length,
+				&info->img.one.bits_per_pixel, &info->img.one.line_length,
 														&info->img.one.endian);
+	if (info->img.one.addr == 0)
+		error_destroy(info, "mlx_get_data_addr failed");
 	info->img.two.img = mlx_new_image(info->mlx.mlx, info->parse.res.x,
 															info->parse.res.y);
+	if (info->img.two.img == 0)
+		error_destroy(info, "mlx_new_image failed");
 	info->img.two.addr = mlx_get_data_addr(info->img.two.img,
 			&info->img.two.bits_per_pixel, &info->img.two.line_length,
 														&info->img.two.endian);
+	if (info->img.two.img == 0)
+		error_destroy(info, "mlx_get_data_addr failed");
 }
 
 void			ft_cub3d_raytrace(t_info info)
 {
 	info.mlx.mlx_window = mlx_new_window(info.mlx.mlx, info.parse.res.x,
 													info.parse.res.y, "Cub3d");
+	if (info.mlx.mlx_window == 0)
+		error_message1("mlx_new_window failed", 1);
 	ft_get_images(&info);
 	ft_start(&info);
 	mlx_hook(info.mlx.mlx_window, 2, 1L << 0, ft_key_press, &info);

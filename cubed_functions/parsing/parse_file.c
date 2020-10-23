@@ -6,7 +6,7 @@
 /*   By: avan-ber <avan-ber@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/03/04 15:30:04 by avan-ber      #+#    #+#                 */
-/*   Updated: 2020/06/23 17:01:38 by avan-ber      ########   odam.nl         */
+/*   Updated: 2020/06/26 16:14:45 by avan-ber      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ static void	ft_check_floodfill(t_info *info)
 			info->parse.map.posplayer.coor.x, info->parse.map.posplayer.coor.y);
 	if (ret == -1)
 		error_message1("The map is not closed", 1);
+	ft_free_map_int(map, info->parse.map.size.y);
 }
 
 void		ft_parsefile(t_info *info, char *filename)
@@ -88,7 +89,7 @@ void		ft_parsefile(t_info *info, char *filename)
 
 	fd = open(filename, O_RDONLY);
 	ft_parse_file_elements(info, fd);
-	if (ft_vla_char_init(&vla, 16) == -1)
+	if (ft_vla_char_init(&vla, 128) == -1)
 		error_message1("ft_vla_char_init failed", 1);
 	ft_parse_file_map(info, fd, &vla);
 	close(fd);

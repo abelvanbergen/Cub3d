@@ -6,30 +6,32 @@
 #    By: avan-ber <avan-ber@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/02/28 13:20:50 by avan-ber      #+#    #+#                  #
-#    Updated: 2020/06/23 17:27:23 by avan-ber      ########   odam.nl          #
+#    Updated: 2020/06/30 16:27:40 by avan-ber      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = cubed
-FLAGS = -Wall -Werror -Wextra
+NAME = cub3D
+FLAGS = -Wall -Werror -Wextra -g
 SRCS =	cubed_functions/cub3d_utils/cub3d_utils1.c \
+		cubed_functions/cub3d_utils/cub3d_utils2.c \
+		cubed_functions/parsing/ft_fill_map.c \
+		cubed_functions/parsing/ft_parse_elements.c \
+		cubed_functions/parsing/ft_read_map.c \
+		cubed_functions/parsing/ft_sprite_utils1.c \
+		cubed_functions/parsing/ft_sprite.c \
 		cubed_functions/parsing/get_color.c \
 		cubed_functions/parsing/get_resolution.c \
 		cubed_functions/parsing/get_texture.c \
 		cubed_functions/parsing/parse_file.c \
-		cubed_functions/parsing/ft_fill_map.c \
-		cubed_functions/raytraycing/ft_cub3d_raytrace.c \
-		cubed_functions/raytraycing/ft_hooks.c \
-		cubed_functions/raytraycing/ft_move.c \
-		cubed_functions/raytraycing/ft_render_textures.c \
-		cubed_functions/parsing/ft_sprite.c \
-		cubed_functions/raytraycing/ft_texture_jumptable.c \
-		cubed_functions/raytraycing/ft_make_frame.c \
 		cubed_functions/raytraycing/cub3d_make_frame_utils1.c \
 		cubed_functions/raytraycing/cub3d_make_frame_utils2.c \
-		cubed_functions/parsing/ft_parse_elements.c \
-		cubed_functions/parsing/ft_sprite_utils1.c \
-		cubed_functions/parsing/ft_read_map.c \
+		cubed_functions/raytraycing/ft_cub3d_raytrace.c \
+		cubed_functions/raytraycing/ft_hooks.c \
+		cubed_functions/raytraycing/ft_make_frame.c \
+		cubed_functions/raytraycing/ft_move.c \
+		cubed_functions/raytraycing/ft_render_textures.c \
+		cubed_functions/raytraycing/ft_texture_jumptable.c \
+		cubed_functions/screen_shot/ft_make_screen_shot.c \
 		cubed_functions/main.c
 FRAMEWORK =	-framework OpenGl\
 			-framework AppKit

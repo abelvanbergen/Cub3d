@@ -6,7 +6,7 @@
 /*   By: avan-ber <avan-ber@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/03/10 16:35:16 by avan-ber      #+#    #+#                 */
-/*   Updated: 2020/06/23 16:59:46 by avan-ber      ########   odam.nl         */
+/*   Updated: 2020/06/26 14:06:47 by avan-ber      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ static char	*ft_get_char_enum_rot(int id)
 static int	ft_set_posplayer(t_map *map, int rot, t_2int coor)
 {
 	if (map->posplayer.set == 1)
-		error_message2("There are multiple players given\n\
-						Second appearance: ", ft_get_char_enum_rot(rot), 1);
+		error_message2("There are multiple players given\
+	\nSecond appearance: ", ft_get_char_enum_rot(rot), 1);
 	map->posplayer.set = 1;
 	map->posplayer.coor.x = coor.x;
 	map->posplayer.coor.y = coor.y;
@@ -59,8 +59,7 @@ static int	ft_fill_map_get_int(char c, t_map *map, t_2int coor,
 	else if (c == 'W')
 		return (ft_set_posplayer(map, west, coor));
 	else
-		error_message2("There is a invalid char in the map\nChar: ",
-									&c, 1);
+		error_message2("There is a invalid char in the map\nChar: ", &c, 1);
 	return (0);
 }
 
